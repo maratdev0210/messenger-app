@@ -1,1 +1,63 @@
 @import "tailwindcss";
+
+/* SF Pro Apple fonts */
+
+@font-face {
+  font-family: "SF Pro";
+  src: url("./assets/fonts/SF\ Pro/SF-Pro-Display-Regular.otf")
+    format("embedded-opentype");
+
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "SF Pro";
+  src: url("./assets/fonts/SF\ Pro/SF-Pro-Display-Semibold.otf")
+    format("embedded-opentype");
+  font-weight: 600;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "SF Pro";
+  src: url("./assets/fonts/SF\ Pro/SF-Pro-Display-Light.otf")
+    format("embedded-opentype");
+  font-weight: 300;
+  font-style: normal;
+}
+
+:root {
+  font-family: "SF Pro";
+}
+
+@theme {
+  --animate-image-load: image-load 0.5s ease-in-out;
+  --animate-label-appear: label-appear 0.3s ease-in-out forwards;
+
+  @keyframes label-appear {
+    0% {
+      transform: scale(0);
+      position: relative;
+      opacity: 0;
+      bottom: 4px;
+    }
+    100% {
+      transform: scale(1);
+      position: relative;
+      bottom: 0px;
+    }
+  }
+
+  @keyframes image-load {
+    0% {
+      transform: scale(0);
+    }
+    80% {
+      transform: scale(1.1);
+    }
+    100% {
+      transform: scale(1);
+    }
+  }
+}
