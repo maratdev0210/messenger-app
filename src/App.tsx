@@ -1,5 +1,5 @@
 import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
-import { Auth, Chat, Profile } from "./pages/pages";
+import { Auth, Chat, Profile, Signup } from "./pages/pages";
 import "./index.css";
 
 function App() {
@@ -9,6 +9,7 @@ function App() {
         <Route path="/auth" element={<Auth />} />
         <Route path="/chat" element={<Chat />} />
         <Route path="/profile" element={<Profile />} />
+        <Route path="/auth/signup" element={<Signup />} />
         <Route path="*" element={<Navigate to="/auth" />} />
       </Routes>
     </BrowserRouter>

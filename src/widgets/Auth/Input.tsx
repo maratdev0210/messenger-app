@@ -1,6 +1,6 @@
 import { UseFormRegister, UseFormWatch } from "react-hook-form";
-import { Inputs } from "../../types/auth/inputs";
 import { useState } from "react";
+import { Inputs } from "../../types/auth/inputs";
 
 interface IField {
   name: keyof Inputs;

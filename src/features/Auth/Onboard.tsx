@@ -3,8 +3,11 @@
 import { useForm, SubmitHandler } from "react-hook-form";
 import { Inputs } from "../../types/auth/inputs";
 import Input from "../../widgets/Auth/Input";
+import { useNavigate } from "react-router-dom";
+import { LoginFields } from "../../types/auth/login";
 
 export default function Onboard() {
+  const navigate = useNavigate();
   const {
     register,
     handleSubmit,
@@ -20,20 +23,18 @@ export default function Onboard() {
         className="flex flex-col px-2 gap-2 md:w-1/2 lg:w-1/3 2xl:w-90 md:mx-auto"
         onSubmit={handleSubmit(onSubmit)}
       >
-        <Input
-          name="username"
-          label="Username"
-          type="text"
-          register={register}
-          watch={watch}
-        />
-        <Input
-          name="password"
-          label="Password"
-          type="password"
-          register={register}
-          watch={watch}
-        />
+        {LoginFields.map((field, index) => {
+          return (
+            <Input
+              key={index}
+              name={field.name}
+              label={field.label}
+              type={field.label}
+              register={register}
+              watch={watch}
+            />
+          );
+        })}
         <input
           type="submit"
           value="Войти"
@@ -41,7 +42,10 @@ export default function Onboard() {
         />
       </form>
       <div className="px-2 md:px-4 lg:px-6 2xl:w-90 2xl:px-2 2xl:mx-auto flex justify-center">
-        <button className="w-full md:w-1/2 lg:w-1/3 2xl:w-90 rounded-lg bg-gray-200 py-1.5 mt-2 text-gray-700 font-semibold">
+        <button
+          onClick={() => navigate("/auth/signup")}
+          className="w-full md:w-1/2 lg:w-1/3 2xl:w-90 rounded-lg bg-gray-200 py-1.5 mt-2 text-gray-700 font-semibold cursor-pointer hover:transition hover:bg-gray-200/75 hover:duration-200"
+        >
           Создать новый аккаунт
         </button>
       </div>

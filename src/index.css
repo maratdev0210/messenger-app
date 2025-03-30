@@ -21,9 +21,9 @@
 
 @font-face {
   font-family: "SF Pro";
-  src: url("./assets/fonts/SF\ Pro/SF-Pro-Display-Light.otf")
+  src: url("./assets/fonts/SF\ Pro/SF-Pro-Display-Medium.otf")
     format("embedded-opentype");
-  font-weight: 300;
+  font-weight: 500;
   font-style: normal;
 }
 
