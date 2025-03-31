@@ -5,6 +5,10 @@ import { Inputs } from "../../types/auth/inputs";
 import Input from "../../widgets/Auth/Input";
 import { useNavigate } from "react-router-dom";
 import { LoginFields } from "../../types/auth/login";
+import ToastError from "../../widgets/Auth/ToastError";
+import { apiClient } from "../../lib/apiClient";
+import { LOGIN_ROUTE } from "../../utils/constants";
+import { useState } from "react";
 
 export default function Onboard() {
   const navigate = useNavigate();
@@ -15,7 +19,36 @@ export default function Onboard() {
     formState: { errors },
   } = useForm<Inputs>();
 
-  const onSubmit: SubmitHandler<Inputs> = (data) => console.log(data);
+  const [isLoginSuccess, setIsLoginSuccess] = useState<boolean>(false);
+  const [isFormSubmitted, setIsFormSubmitted] = useState<boolean>(false);
+
+  const onSubmit: SubmitHandler<Inputs> = async (data) => {
+    try {
+      const response = await apiClient.post(
+        LOGIN_ROUTE,
+        {
+          username: data.username,
+          password: data.password,
+        },
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      if (response.data.user.id) {
+        navigate("/chat");
+        setIsLoginSuccess(true);
+      } else {
+        setIsLoginSuccess(false);
+      }
+    } catch (error) {
+      console.log(error);
+      setIsLoginSuccess(false);
+    } finally {
+      setIsFormSubmitted(true);
+    }
+  };
 
   return (
     <>
@@ -32,6 +65,7 @@ export default function Onboard() {
               type={field.label}
               register={register}
               watch={watch}
+              errors={errors}
             />
           );
         })}
@@ -49,6 +83,9 @@ export default function Onboard() {
           Создать новый аккаунт
         </button>
       </div>
+      {!isLoginSuccess && isFormSubmitted && (
+        <ToastError message="Incorrect username or password" />
+      )}
     </>
   );
 }

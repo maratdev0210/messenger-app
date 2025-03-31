@@ -3,6 +3,9 @@ import Input from "../../widgets/Auth/Input";
 import { Inputs } from "../../types/auth/inputs";
 import { SignupFields } from "../../types/auth/signup";
 import Logo from "../../assets/Logo";
+import { apiClient } from "../../lib/apiClient";
+import { SIGNUP_ROUTE } from "../../utils/constants";
+import { useNavigate } from "react-router-dom";
 
 export default function Signup() {
   const {
@@ -12,7 +15,32 @@ export default function Signup() {
     formState: { errors },
   } = useForm<Inputs>();
 
-  const onSubmit: SubmitHandler<Inputs> = (data) => console.log(data);
+  const navigate = useNavigate();
+
+  const onSubmit: SubmitHandler<Inputs> = async (data) => {
+    try {
+      const response = await apiClient.post(
+        SIGNUP_ROUTE,
+        {
+          username: data.username,
+          password: data.password,
+          firstName: data.firstName,
+          lastName: data.lastName,
+        },
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+          withCredentials: true,
+        }
+      );
+      if (response.status == 200) {
+        navigate("/profile");
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   return (
     <>
@@ -37,6 +65,7 @@ export default function Signup() {
                   type={field.type}
                   register={register}
                   watch={watch}
+                  errors={errors}
                 />
               );
             })}

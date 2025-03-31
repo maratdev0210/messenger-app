@@ -24,7 +24,7 @@ export const SignupFields: ISignupFields[] = [
   },
   {
     name: "lastName",
-    label: "Lasts name",
+    label: "Last name",
     type: "text",
   },
 ];

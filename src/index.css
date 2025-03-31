@@ -38,6 +38,27 @@
   --animate-second-dot: first-dot 0.7s ease-in-out 0.8s infinite;
   --animate-third-dot: first-dot 0.7s ease-in-out 1s infinite;
   --animate-letter-appear: letter-appear 0.5s ease-in-out forwards;
+  --animate-toast-error-appear: toast-error-appear 1s ease-in-out forwards;
+  --animate-toast-error-disappear: toast-error-disappear 1s ease-in-out 4s
+    forwards;
+
+  @keyframes toast-error-appear {
+    0% {
+      transform: translateX(200%);
+    }
+    100% {
+      transform: translateX(35%);
+    }
+  }
+
+  @keyframes toast-error-disappear {
+    0% {
+      opacity: 1;
+    }
+    100% {
+      opacity: 0;
+    }
+  }
 
   @keyframes letter-appear {
     0% {

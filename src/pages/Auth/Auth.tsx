@@ -1,4 +1,4 @@
-import Form from "../../widgets/Auth/Form";
+import Onboard from "../../features/Auth/Onboard";
 import Logo from "../../assets/Logo";
 
 export default function Auth() {
@@ -12,7 +12,7 @@ export default function Auth() {
           <Logo animate={true} />
         </div>
         <div className="w-full mt-12">
-          <Form />
+          <Onboard />
         </div>
       </div>
     </>
