@@ -1,17 +1,31 @@
 import express from "express";
-import { createServer } from "node:http";
-import { fileURLToPath } from "node:url";
-import { dirname, join } from "node:path";
+import dotenv from "dotenv";
+import cors from "cors";
+import cookieParser from "cookie-parser";
+import mongoose from "mongoose";
+
+dotenv.config();
 
 const app = express();
-const server = createServer(app);
+const port = process.env.PORT || 3001;
+const databaseURL = process.env.DATABASE_URL;
 
-const __dirname = dirname(fileURLToPath(import.meta.url));
+app.use(
+  cors({
+    origin: [process.env.ORIGIN],
+    methods: ["GET", "POST", "PUT", "PATCH", "DELETE"],
+    credentials: true,
+  })
+);
 
-app.get("/", (req, res) => {
-  res.sendFile(join(__dirname, "../../index.html"));
+app.use(cookieParser());
+app.use(express.json());
+
+const server = app.listen(port, () => {
+  console.log(`Server is running at http://localhost:${port}`);
 });
 
-server.listen(3000, () => {
-  console.log("server running at http://localhost:3000");
-});
+mongoose
+  .connect(databaseURL)
+  .then(() => console.log("DB Connection Successfull"))
+  .catch((error) => console.log(error.message));
