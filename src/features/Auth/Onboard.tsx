@@ -20,7 +20,7 @@ export default function Onboard() {
   return (
     <>
       <form
-        className="flex flex-col px-2 gap-2 md:w-1/2 lg:w-1/3 2xl:w-90 md:mx-auto"
+        className="flex cursor-pointer flex-col px-2 gap-2 md:w-1/2 lg:w-1/3 2xl:w-90 md:mx-auto"
         onSubmit={handleSubmit(onSubmit)}
       >
         {LoginFields.map((field, index) => {

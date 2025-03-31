@@ -34,6 +34,40 @@
 @theme {
   --animate-image-load: image-load 0.5s ease-in-out;
   --animate-label-appear: label-appear 0.3s ease-in-out forwards;
+  --animate-first-dot: first-dot 0.7s ease-in-out infinite;
+  --animate-second-dot: first-dot 0.7s ease-in-out 0.8s infinite;
+  --animate-third-dot: first-dot 0.7s ease-in-out 1s infinite;
+  --animate-letter-appear: letter-appear 0.5s ease-in-out forwards;
+
+  @keyframes letter-appear {
+    0% {
+      transform: translateY(-32px);
+    }
+    100% {
+      transform: translateY(0px);
+      position: relative;
+      bottom: 0px;
+    }
+  }
+
+  @keyframes first-dot {
+    0% {
+      transform: translateY(0px);
+      opacity: 1;
+    }
+    33% {
+      transform: translateY(-8px);
+      opacity: 0.75;
+    }
+    66% {
+      transform: translateY(0px);
+      opacity: 1;
+    }
+    100% {
+      transform: translateY(0px);
+      opacity: 0.75;
+    }
+  }
 
   @keyframes label-appear {
     0% {

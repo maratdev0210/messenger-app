@@ -1,5 +1,5 @@
 import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
-import { Auth, Chat, Profile, Signup } from "./pages/pages";
+import { Auth, Chat, Profile, Signup, Home } from "./pages/pages";
 import Header from "./widgets/Header/Header";
 import Footer from "./widgets/Footer/Footer";
 import "./index.css";
@@ -9,6 +9,7 @@ function App() {
     <BrowserRouter>
       <Header />
       <Routes>
+        <Route path="/" element={<Home />} />
         <Route path="/auth" element={<Auth />} />
         <Route path="/chat" element={<Chat />} />
         <Route path="/profile" element={<Profile />} />
