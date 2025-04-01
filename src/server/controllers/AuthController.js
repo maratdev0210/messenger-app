@@ -22,6 +22,7 @@ export const signup = async (request, response, next) => {
       maxAge,
       secure: true,
       sameSite: "None",
+      secure: process.env.NODE_ENV === "production",
     });
     return response.status(201).json({
       user: {
@@ -55,9 +56,9 @@ export const login = async (request, response, next) => {
 
     response.cookie("jwt", createToken(username, user.id), {
       maxAge,
-      secure: process.env.NODE_ENV === "production",
+      secure: true,
       sameSite: "None",
-      httpOnly: false,
+      httpOnly: true,
     });
     return response.status(200).json({
       user: {
@@ -66,6 +67,24 @@ export const login = async (request, response, next) => {
         firstName: user.firstName,
         lastName: user.lastName,
       },
+    });
+  } catch (error) {
+    console.log({ error });
+    return response.status(500).send("Internal Server Error");
+  }
+};
+
+export const getUserInfo = async (request, response, next) => {
+  try {
+    const userData = await User.findById(request.userId);
+    if (!userData) {
+      return response.status(404).send("User with the given id not found!");
+    }
+    return response.status(200).json({
+      id: userData.id,
+      username: userData.username,
+      firstName: userData.firstName,
+      lastName: userData.lastName,
     });
   } catch (error) {
     console.log({ error });

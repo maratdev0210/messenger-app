@@ -41,7 +41,7 @@ export default function Onboard() {
       );
       if (response.data.user.id) {
         setUserInfo(response.data.user);
-        navigate("/chat");
+        // navigate("/chat");
         setIsLoginSuccess(true);
       } else {
         setIsLoginSuccess(false);
