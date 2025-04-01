@@ -9,6 +9,7 @@ import ToastError from "../../widgets/Auth/ToastError";
 import { apiClient } from "../../lib/apiClient";
 import { LOGIN_ROUTE } from "../../utils/constants";
 import { useState } from "react";
+import { useAppStore } from "../../store/store";
 
 export default function Onboard() {
   const navigate = useNavigate();
@@ -21,6 +22,7 @@ export default function Onboard() {
 
   const [isLoginSuccess, setIsLoginSuccess] = useState<boolean>(false);
   const [isFormSubmitted, setIsFormSubmitted] = useState<boolean>(false);
+  const { setUserInfo } = useAppStore();
 
   const onSubmit: SubmitHandler<Inputs> = async (data) => {
     try {
@@ -34,9 +36,11 @@ export default function Onboard() {
           headers: {
             "Content-Type": "application/json",
           },
+          withCredentials: true,
         }
       );
       if (response.data.user.id) {
+        setUserInfo(response.data.user);
         navigate("/chat");
         setIsLoginSuccess(true);
       } else {

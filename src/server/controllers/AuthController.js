@@ -46,16 +46,18 @@ export const login = async (request, response, next) => {
     }
     const user = await User.findOne({ username });
     if (!user) {
-        return response.status(404).send("Username does not exist.");
+      return response.status(404).send("Username does not exist.");
     }
     const auth = await compare(password, user.password);
     if (!auth) {
-        return response.status(400).send("Password is incorrect");
+      return response.status(400).send("Password is incorrect");
     }
+
     response.cookie("jwt", createToken(username, user.id), {
       maxAge,
-      secure: true,
+      secure: process.env.NODE_ENV === "production",
       sameSite: "None",
+      httpOnly: false,
     });
     return response.status(200).json({
       user: {

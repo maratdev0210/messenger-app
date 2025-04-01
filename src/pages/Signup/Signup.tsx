@@ -6,6 +6,7 @@ import Logo from "../../assets/Logo";
 import { apiClient } from "../../lib/apiClient";
 import { SIGNUP_ROUTE } from "../../utils/constants";
 import { useNavigate } from "react-router-dom";
+import { useAppStore } from "../../store/store";
 
 export default function Signup() {
   const {
@@ -16,6 +17,7 @@ export default function Signup() {
   } = useForm<Inputs>();
 
   const navigate = useNavigate();
+  const { setUserInfo } = useAppStore();
 
   const onSubmit: SubmitHandler<Inputs> = async (data) => {
     try {
@@ -35,6 +37,7 @@ export default function Signup() {
         }
       );
       if (response.status == 200) {
+        setUserInfo(response.data.user);
         navigate("/profile");
       }
     } catch (error) {
