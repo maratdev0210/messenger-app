@@ -1,7 +1,11 @@
 import { Link } from "react-router-dom";
 import Logo from "../../assets/Logo";
+import { useAppStore } from "../../store/store";
 
 export default function Header() {
+  const { userInfo } = useAppStore();
+  const isAuth = !!userInfo;
+
   return (
     <>
       <div className="sticky top-0 w-full z-100 bg-white/50 h-16 cursor-pointer">
@@ -18,6 +22,11 @@ export default function Header() {
               <li className="text-blue-600 text-xl hover:transition hover:-translate-y-0.5 hover:text-blue-700 hover:duration-200 hover:ease-in-out">
                 <Link to="/chat">Chats</Link>
               </li>
+              {isAuth && (
+                <li className="text-blue-600 text-xl hover:transition hover:-translate-y-0.5 hover:text-blue-700 hover:duration-200 hover:ease-in-out">
+                  <Link to="/profile">Profile</Link>
+                </li>
+              )}
             </ul>
           </nav>
         </div>
