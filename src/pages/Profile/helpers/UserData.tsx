@@ -1,9 +1,10 @@
 interface IUserData {
   userData: string;
+  profileColor: string;
   label: string;
 }
 
-export default function UserData({ userData, label }: IUserData) {
+export default function UserData({ userData, label, profileColor }: IUserData) {
   return (
     <div className="-mb-1 w-3/4 mx-auto p-0">
       <label>

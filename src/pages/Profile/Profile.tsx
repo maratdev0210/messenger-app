@@ -3,8 +3,8 @@ import ProfileColor from "./helpers/ProfileColor";
 import ProfilePicture from "./helpers/ProfilePicture";
 import { useAppStore } from "../../store/store";
 import { USER_LABELS, PROFILE_COLORS } from "../../types/profile/profile";
-import { useEffect, useState } from "react";
-import { UPDATE_PROFILE_ROUTE } from "../../utils/constants";
+import { useEffect, useState, useRef } from "react";
+import { HOST, UPDATE_PROFILE_ROUTE } from "../../utils/constants";
 import { apiClient } from "../../lib/apiClient";
 import Success from "../../widgets/Toasts/Success";
 
@@ -13,11 +13,22 @@ export default function Profile() {
   const [profileColor, setProfileColor] = useState<string>("bg-black");
   const [isPictureSet, setIsPictureSet] = useState<boolean>(false);
   const [isProfileUpdated, setIsProfileUpdated] = useState<boolean>(false);
+  const [profilePicture, setProfilePicture] = useState<string>("");
 
   const USER_DATA = [userInfo.username, userInfo.firstName, userInfo.lastName];
 
+  console.log(userInfo);
+
   useEffect(() => {
     setProfileColor(userInfo.profileColor);
+
+    if (userInfo.image) {
+      setProfilePicture(`${HOST}/${userInfo.image}`);
+      setIsPictureSet(true);
+    } else {
+      setProfilePicture("");
+      setIsPictureSet(false);
+    }
   }, [userInfo]);
 
   const saveChanges = async () => {
@@ -28,6 +39,9 @@ export default function Profile() {
         { withCredentials: true }
       );
       setIsProfileUpdated(true);
+      setTimeout(() => {
+        setIsProfileUpdated(false);
+      }, 5000);
       if (response.status === 200 && response.data) {
         setUserInfo({ ...response.data });
       }
@@ -43,6 +57,7 @@ export default function Profile() {
         <div className="w-75 flex flex-col items-center py-2  h-auto border-1 border-blue-200 rounded-md mx-auto">
           <div className="w-full border-b-1 border-b-gray-200 flex justify-center">
             <ProfilePicture
+              profilePicture={profilePicture}
               profileColor={profileColor}
               isPictureSet={isPictureSet}
             />
@@ -53,6 +68,7 @@ export default function Profile() {
                 <UserData
                   key={index}
                   userData={data}
+                  profileColor={profileColor}
                   label={USER_LABELS[index]}
                 />
               );

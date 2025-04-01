@@ -22,6 +22,9 @@ const userSchema = new mongoose.Schema({
   profileColor: {
     type: String,
   },
+  image: {
+    type: String,
+  },
 });
 
 userSchema.pre("save", async function (next) {
