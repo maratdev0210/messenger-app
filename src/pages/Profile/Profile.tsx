@@ -3,18 +3,42 @@ import ProfileColor from "./helpers/ProfileColor";
 import ProfilePicture from "./helpers/ProfilePicture";
 import { useAppStore } from "../../store/store";
 import { USER_LABELS, PROFILE_COLORS } from "../../types/profile/profile";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { UPDATE_PROFILE_ROUTE } from "../../utils/constants";
+import { apiClient } from "../../lib/apiClient";
+import Success from "../../widgets/Toasts/Success";
 
 export default function Profile() {
-  const { userInfo } = useAppStore();
+  const { userInfo, setUserInfo } = useAppStore();
   const [profileColor, setProfileColor] = useState<string>("bg-black");
   const [isPictureSet, setIsPictureSet] = useState<boolean>(false);
+  const [isProfileUpdated, setIsProfileUpdated] = useState<boolean>(false);
+
   const USER_DATA = [userInfo.username, userInfo.firstName, userInfo.lastName];
 
-  const saveChanges = async () => {}; // TO-DO: Write backend logic for changing the user data
+  useEffect(() => {
+    setProfileColor(userInfo.profileColor);
+  }, [userInfo]);
+
+  const saveChanges = async () => {
+    try {
+      const response = await apiClient.post(
+        UPDATE_PROFILE_ROUTE,
+        { profileColor },
+        { withCredentials: true }
+      );
+      setIsProfileUpdated(true);
+      if (response.status === 200 && response.data) {
+        setUserInfo({ ...response.data });
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   return (
     <>
+      {isProfileUpdated && <Success message="Данные профиля обновлены" />}
       <div>
         <div className="w-75 flex flex-col items-center py-2  h-auto border-1 border-blue-200 rounded-md mx-auto">
           <div className="w-full border-b-1 border-b-gray-200 flex justify-center">

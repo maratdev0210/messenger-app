@@ -19,6 +19,9 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: [true, "Last name is required"],
   },
+  profileColor: {
+    type: String,
+  },
 });
 
 userSchema.pre("save", async function (next) {

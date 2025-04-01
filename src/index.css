@@ -41,6 +41,27 @@
   --animate-toast-error-appear: toast-error-appear 1s ease-in-out forwards;
   --animate-toast-error-disappear: toast-error-disappear 1s ease-in-out 4s
     forwards;
+  --animate-toast-success-appear: toast-success-appear 1s ease-in-out forwards;
+  --animate-toast-success-disappear: toast-success-disappear 1s ease-in-out 3s
+    forwards;
+
+  @keyframes toast-success-appear {
+    0% {
+      transform: translateY(-100%);
+    }
+    100% {
+      transform: translateY(12px);
+    }
+  }
+
+  @keyframes toast-success-disappear {
+    0% {
+      transform: translateY(12px);
+    }
+    100% {
+      transform: translateY(-120px);
+    }
+  }
 
   @keyframes toast-error-appear {
     0% {

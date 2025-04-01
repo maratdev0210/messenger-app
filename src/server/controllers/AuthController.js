@@ -85,6 +85,38 @@ export const getUserInfo = async (request, response, next) => {
       username: userData.username,
       firstName: userData.firstName,
       lastName: userData.lastName,
+      profileColor: userData.profileColor,
+    });
+  } catch (error) {
+    console.log({ error });
+    return response.status(500).send("Internal Server Error");
+  }
+};
+
+export const updateProfile = async (request, response, next) => {
+  try {
+    const { userId } = request;
+    const { profileColor } = request.body;
+
+    if (!profileColor) {
+      return response.status(404).send("Color is required");
+    }
+
+    const userData = await User.findByIdAndUpdate(
+      userId,
+      {
+        profileColor,
+      },
+      { new: true, runValidators: true }
+    );
+
+    return response.status(200).json({
+      id: userData.id,
+      username: userData.username,
+      firstName: userData.firstName,
+      lastName: userData.lastName,
+      image: userData.image,
+      profileColor: userData.profileColor,
     });
   } catch (error) {
     console.log({ error });
