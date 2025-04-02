@@ -1,4 +1,4 @@
-// Spinning loading animation
+
 
 export default function Loading() {
   return (
