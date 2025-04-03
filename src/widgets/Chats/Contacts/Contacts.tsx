@@ -1,5 +1,6 @@
 import Logo from "../../../assets/Logo";
 import ProfileInfo from "../ProfileInfo/ProfileInfo";
+import DirectMessage from "./DirectMessage";
 
 interface ITitle {
   text: string;
@@ -13,8 +14,13 @@ export default function Contacts() {
           <div className="size-16">
             <Logo animate={false} />
           </div>
-          <div>
-            <Title text="Личные сообщения" />
+          <div className="my-5">
+            <div className="flex items-center justify-between pr-2">
+              <Title text="Личные сообщения" />
+              <DirectMessage />
+            </div>
+          </div>
+          <div className="my-2">
             <Title text="Каналы" />
           </div>
         </div>
