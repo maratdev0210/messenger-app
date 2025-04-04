@@ -42,6 +42,7 @@ export default function ShowContacts({
                     profilePicture={`${HOST}/${contact.image}`}
                     profileColor={contact.profileColor}
                     isPictureSet={true}
+                    canChange={false}
                   />
                 </div>
                 <div>

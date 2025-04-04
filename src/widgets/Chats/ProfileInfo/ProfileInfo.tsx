@@ -33,6 +33,7 @@ export default function ProfileInfo() {
               profilePicture={profilePicture}
               profileColor={profileColor}
               isPictureSet={true}
+              canChange={false}
             />
           </div>
           <div>

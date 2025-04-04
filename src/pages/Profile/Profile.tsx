@@ -60,6 +60,7 @@ export default function Profile() {
               profilePicture={profilePicture}
               profileColor={profileColor}
               isPictureSet={isPictureSet}
+              canChange={true}
             />
           </div>
           <div className="flex flex-col items-center justify-center">

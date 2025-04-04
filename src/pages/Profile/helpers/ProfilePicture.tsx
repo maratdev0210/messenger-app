@@ -11,6 +11,7 @@ interface IProfilePicture {
   profilePicture: string;
   profileColor: string;
   isPictureSet: boolean;
+  canChange: boolean;
 }
 
 const handleImageChange = async (event, setUserInfo: any, userInfo: any) => {
@@ -44,7 +45,13 @@ const handleDeleteImage = async (setUserInfo: any, userInfo: any) => {
   }
 };
 
-function IconDisplay({ isPictureSet }: { isPictureSet: boolean }) {
+function IconDisplay({
+  isPictureSet,
+  canChange,
+}: {
+  isPictureSet: boolean;
+  canChange: boolean;
+}) {
   const fileInputRef = useRef(null);
   const { userInfo, setUserInfo } = useAppStore();
 
@@ -53,28 +60,33 @@ function IconDisplay({ isPictureSet }: { isPictureSet: boolean }) {
   };
 
   return (
-    <div
-      onClick={
-        isPictureSet
-          ? () => handleDeleteImage(setUserInfo, userInfo)
-          : handleFileInputClick
-      }
-      className="absolute top-1/2 translate-x-1/2 -translate-y-1/2"
-    >
-      {isPictureSet ? (
-        <Trash className="text-white" />
-      ) : (
-        <Plus className="text-white" />
+    <>
+      {canChange && (
+        <div
+          onClick={
+            isPictureSet
+              ? () => handleDeleteImage(setUserInfo, userInfo)
+              : handleFileInputClick
+          }
+          className="absolute top-1/2 translate-x-1/2 -translate-y-1/2"
+        >
+          {isPictureSet ? (
+            <Trash className="text-white" />
+          ) : (
+            <Plus className="text-white" />
+          )}
+
+          <input
+            type="file"
+            ref={fileInputRef}
+            className="hidden"
+            onChange={(e) => handleImageChange(e, setUserInfo, userInfo)}
+            name="profileImage"
+            accept=".png, .jpg, .jpeg, .svg, .webp"
+          />
+        </div>
       )}
-      <input
-        type="file"
-        ref={fileInputRef}
-        className="hidden"
-        onChange={(e) => handleImageChange(e, setUserInfo, userInfo)}
-        name="profileImage"
-        accept=".png, .jpg, .jpeg, .svg, .webp"
-      />
-    </div>
+    </>
   );
 }
 
@@ -82,9 +94,10 @@ export default function ProfilePicture({
   profilePicture,
   profileColor,
   isPictureSet,
+  canChange,
 }: IProfilePicture) {
   const [isHovered, setIsHovered] = useState<boolean>(false);
-  
+
   return (
     <>
       <div
@@ -95,7 +108,9 @@ export default function ProfilePicture({
         {isPictureSet && (
           <img className="size-full rounded-full" src={profilePicture} />
         )}
-        {isHovered && <IconDisplay isPictureSet={isPictureSet} />}
+        {isHovered && (
+          <IconDisplay isPictureSet={isPictureSet} canChange={canChange} />
+        )}
       </div>
     </>
   );
