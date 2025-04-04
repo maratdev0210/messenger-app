@@ -36,6 +36,7 @@ export default function Signup() {
           withCredentials: true,
         }
       );
+      console.log(response);
       if (response.status == 200) {
         setUserInfo(response.data.user);
         navigate("/profile");

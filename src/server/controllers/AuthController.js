@@ -67,6 +67,8 @@ export const login = async (request, response, next) => {
         username: user.username,
         firstName: user.firstName,
         lastName: user.lastName,
+        profileColor: user.profileColor,
+        image: user.image,
       },
     });
   } catch (error) {

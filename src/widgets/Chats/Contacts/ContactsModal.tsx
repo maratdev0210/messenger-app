@@ -9,6 +9,10 @@ import {
 } from "@/components/ui/dialog";
 import { useState } from "react";
 import Loading from "@/features/global/Loading";
+import { apiClient } from "@/lib/apiClient";
+import { SEARCH_CONTACTS_ROUTES } from "@/utils/constants";
+import { Contacts } from "@/types/contacts/contacts";
+import ShowContacts from "./ShowContacts";
 
 interface IContactsModal {
   openNewContactModal: boolean;
@@ -19,8 +23,26 @@ export default function ContactsModal({
   openNewContactModal,
   setOpenNewContactModal,
 }: IContactsModal) {
-  const searchContacts = async (search) => {};
-  const [searchedContacts, setSearchedContacts] = useState<string[]>([]);
+  const [searchedContacts, setSearchedContacts] = useState<Contacts[]>([]);
+  const searchContacts = async (searchTerm: string) => {
+    try {
+      if (searchTerm.length > 0) {
+        const response = await apiClient.post(
+          SEARCH_CONTACTS_ROUTES,
+          { searchTerm },
+          { withCredentials: true }
+        );
+        console.log(response);
+        if (response.status === 200 && response.data.contacts) {
+          setSearchedContacts(response.data.contacts);
+        }
+      } else {
+        setSearchedContacts([]);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   return (
     <>
@@ -37,6 +59,13 @@ export default function ContactsModal({
               className="rounded-lg p-4 bg-[#2c2e3b] border-none"
             />
           </div>
+          {searchedContacts.length > 0 && (
+            <ShowContacts
+              setSearchedContacts={setSearchedContacts}
+              searchedContacts={searchedContacts}
+              setOpenNewContactModal={setOpenNewContactModal}
+            />
+          )}
           {searchedContacts.length <= 0 && <Loading />}
         </DialogContent>
       </Dialog>

@@ -84,7 +84,7 @@ export default function ProfilePicture({
   isPictureSet,
 }: IProfilePicture) {
   const [isHovered, setIsHovered] = useState<boolean>(false);
-
+  
   return (
     <>
       <div
