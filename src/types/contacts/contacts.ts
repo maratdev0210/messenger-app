@@ -10,3 +10,12 @@ export interface Contacts {
   profileColor: string;
   image: string;
 }
+
+export interface DirectMessagesContacts {
+  firstName: string;
+  lastName: string;
+  username: string;
+  profileColor: string;
+  image: string;
+  _id: string;
+}

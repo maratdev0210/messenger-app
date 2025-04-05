@@ -1,12 +1,18 @@
 import { StateCreator } from "zustand";
-import { Contacts } from "@/types/contacts/contacts";
+import { Contacts, DirectMessagesContacts } from "@/types/contacts/contacts";
 
 export interface ChatState {
   selectedChatType: string | undefined;
-  selectedChatData: Contacts | undefined;
+  selectedChatData: Contacts | DirectMessagesContacts | undefined;
   selectedChatMessages: any[];
+  directMessagesContacts: DirectMessagesContacts[];
+  setDirectMessagesContacts: (
+    directMessagesContacts: DirectMessagesContacts[]
+  ) => void;
   setSelectedChatType: (selectedChatType: string | undefined) => void;
-  setSelectedChatData: (selectedChatData: Contacts | undefined) => void;
+  setSelectedChatData: (
+    selectedChatData: Contacts | DirectMessagesContacts | undefined
+  ) => void;
   setSelectedChatMessages: (selectedChatMessages: any[]) => void;
   closeChat: () => void;
   addMessage: (message: any) => void;
@@ -16,10 +22,15 @@ export const createChatSlice: StateCreator<ChatState> = (set, get) => ({
   selectedChatType: undefined,
   selectedChatData: undefined,
   selectedChatMessages: [],
+  directMessagesContacts: [],
+  setDirectMessagesContacts: (directMessagesContacts) => {
+    set({ directMessagesContacts });
+  },
   setSelectedChatType: (selectedChatType: string | undefined) =>
     set({ selectedChatType }),
-  setSelectedChatData: (selectedChatData: Contacts | undefined) =>
-    set({ selectedChatData }),
+  setSelectedChatData: (
+    selectedChatData: Contacts | DirectMessagesContacts | undefined
+  ) => set({ selectedChatData }),
   setSelectedChatMessages: (selectedChatMessages: any[]) =>
     set({ selectedChatMessages }),
   closeChat: () =>
