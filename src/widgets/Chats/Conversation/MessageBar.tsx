@@ -4,10 +4,13 @@ import EmojiPicker from "emoji-picker-react";
 import { Theme } from "emoji-picker-react";
 import { useAppStore } from "@/store/store";
 import { useSocket } from "@/context/SocketContext";
+import { apiClient } from "@/lib/apiClient";
+import { UPLOAD_FILE_ROUTE } from "@/utils/constants";
 
 export default function MessageBar() {
   const emojiRef = useRef(null);
   const socket = useSocket();
+  const fileInputRef = useRef(null);
   const [message, setMessage] = useState<string>("");
   const [emojiPickerOpen, setEmojiPickerOpen] = useState<boolean>(false);
   const { selectedChatType, selectedChatData, userInfo } = useAppStore();
@@ -44,6 +47,45 @@ export default function MessageBar() {
     }
   };
 
+  const handleAttachmentClick = () => {
+    if (fileInputRef.current) {
+      fileInputRef.current.click();
+    }
+  };
+
+  const handleAttachmentChange = async (event) => {
+    try {
+      const file = event.target.files[0];
+      if (file) {
+        const formData = new FormData();
+        formData.append("file", file);
+        const response = await apiClient.post(UPLOAD_FILE_ROUTE, formData, {
+          withCredentials: true,
+        });
+
+        console.log(response);
+
+        if (response.status === 200 && response.data) {
+          if (selectedChatType === "contact") {
+            if (socket?.connected) {
+              socket.emit("sendMessage", {
+                sender: userInfo.id,
+                content: undefined,
+                recipient: selectedChatData?._id,
+                messageType: "file",
+                fileUrl: response.data.filePath,
+              });
+            } else {
+              console.warn("Socket not connected");
+            }
+          }
+        }
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <>
       <div className="h-[10vh] bg-[#1c1d25] flex justify-center items-center px-8 mb-6 gap-6">
@@ -55,9 +97,18 @@ export default function MessageBar() {
             value={message}
             onChange={(e) => setMessage(e.target.value)}
           />
-          <button className="cursor-pointer text-neutral-500 hover:scale-110 hover:text-blue-500 hover:duration-300 hover:transition">
+          <button
+            onClick={handleAttachmentClick}
+            className="cursor-pointer text-neutral-500 hover:scale-110 hover:text-blue-500 hover:duration-300 hover:transition"
+          >
             <Link />
           </button>
+          <input
+            type="file"
+            className="hidden"
+            ref={fileInputRef}
+            onChange={handleAttachmentChange}
+          />
           <div className="relative mt-1">
             <button
               onClick={() => setEmojiPickerOpen(true)}

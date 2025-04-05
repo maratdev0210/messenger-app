@@ -6,6 +6,6 @@ export interface Message {
   recipient?: Types.ObjectId | string;
   messageType: "text" | "file";
   content?: string;
-  fileUrl?: string;
+  fileUrl?: string | undefined;
   timestamp?: Date;
 }
