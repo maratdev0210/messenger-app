@@ -16,9 +16,13 @@ function isImage(filePath: string | undefined): boolean {
 export default function FileView({
   message,
   selectedChatData,
+  setShowImage,
+  setImageURL,
 }: {
   message: Message;
   selectedChatData: Contacts | undefined;
+  setShowImage: React.Dispatch<React.SetStateAction<boolean>>;
+  setImageURL: React.Dispatch<React.SetStateAction<string | undefined>>;
 }) {
   const downloadFile = async (fileUrl: string | undefined) => {
     const response = await apiClient.get(`${HOST}/${fileUrl}`, {
@@ -34,6 +38,11 @@ export default function FileView({
     window.URL.revokeObjectURL(urlBlob);
   };
 
+  const handleImageClick = () => {
+    setShowImage(true);
+    setImageURL(message.fileUrl);
+  };
+
   return (
     <>
       <div
@@ -45,7 +54,11 @@ export default function FileView({
       >
         {isImage(message.fileUrl) ? (
           <div>
-            <img src={`${HOST}/${message.fileUrl}`} className="size-48" />
+            <img
+              onClick={() => handleImageClick()}
+              src={`${HOST}/${message.fileUrl}`}
+              className="size-48"
+            />
           </div>
         ) : (
           <div className="flex items-center justify-center gap-4">

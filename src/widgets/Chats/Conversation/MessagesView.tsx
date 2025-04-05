@@ -3,16 +3,21 @@
 import moment from "moment";
 import { useAppStore } from "@/store/store";
 import { Message } from "@/types/messages/messages";
-import { Contacts } from "@/types/contacts/contacts";
+import { Contacts, DirectMessagesContacts } from "@/types/contacts/contacts";
 import TextView from "./TextView";
 import FileView from "./FileView";
+import React from "react";
 
 function DirectMessageView({
   message,
   selectedChatData,
+  setShowImage,
+  setImageURL,
 }: {
   message: Message;
-  selectedChatData: Contacts | undefined;
+  selectedChatData: Contacts | DirectMessagesContacts | undefined;
+  setShowImage: React.Dispatch<React.SetStateAction<boolean>>;
+  setImageURL: React.Dispatch<React.SetStateAction<string | undefined>>;
 }) {
   return (
     <>
@@ -23,7 +28,12 @@ function DirectMessageView({
           <TextView selectedChatData={selectedChatData} message={message} />
         )}
         {message.messageType === "file" && (
-          <FileView selectedChatData={selectedChatData} message={message} />
+          <FileView
+            setShowImage={setShowImage}
+            setImageURL={setImageURL}
+            selectedChatData={selectedChatData}
+            message={message}
+          />
         )}
         <div className="text-xs text-gray-600">
           {moment(message.timestamp).format("LT")}
@@ -33,7 +43,15 @@ function DirectMessageView({
   );
 }
 
-export default function MessagesView() {
+interface IMessageView {
+  setShowImage: React.Dispatch<React.SetStateAction<boolean>>;
+  setImageURL: React.Dispatch<React.SetStateAction<string | undefined>>;
+}
+
+export default function MessagesView({
+  setShowImage,
+  setImageURL,
+}: IMessageView) {
   const { selectedChatType, selectedChatData, selectedChatMessages, userInfo } =
     useAppStore();
 
@@ -53,6 +71,8 @@ export default function MessagesView() {
             )}
             {selectedChatType === "contact" && (
               <DirectMessageView
+                setShowImage={setShowImage}
+                setImageURL={setImageURL}
                 message={message}
                 selectedChatData={selectedChatData}
               />
