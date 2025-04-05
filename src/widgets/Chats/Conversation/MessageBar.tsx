@@ -2,11 +2,15 @@ import { useState, useRef, useEffect } from "react";
 import { Link, SmilePlus, SendHorizontal } from "lucide-react";
 import EmojiPicker from "emoji-picker-react";
 import { Theme } from "emoji-picker-react";
+import { useAppStore } from "@/store/store";
+import { useSocket } from "@/context/SocketContext";
 
 export default function MessageBar() {
   const emojiRef = useRef(null);
+  const socket = useSocket();
   const [message, setMessage] = useState<string>("");
   const [emojiPickerOpen, setEmojiPickerOpen] = useState<boolean>(false);
+  const { selectedChatType, selectedChatData, userInfo } = useAppStore();
 
   useEffect(() => {
     function handleClickOutside(event) {
@@ -26,7 +30,19 @@ export default function MessageBar() {
     setMessage((msg) => msg + emoji.emoji);
   };
 
-  const handleSendMessage = async () => {};
+  const handleSendMessage = async () => {
+    if (socket?.connected) {
+      socket.emit("sendMessage", {
+        sender: userInfo.id,
+        content: message,
+        recipient: selectedChatData?._id,
+        messageType: "text",
+        fileUrl: undefined,
+      });
+    } else {
+      console.warn("Socket not connected");
+    }
+  };
 
   return (
     <>

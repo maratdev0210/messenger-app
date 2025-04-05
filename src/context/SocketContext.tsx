@@ -4,6 +4,7 @@ import { io } from "socket.io-client";
 import { createContext, useContext, useEffect, useRef } from "react";
 import { Socket } from "socket.io-client";
 import { DefaultEventsMap } from "@socket.io/component-emitter";
+import { useState } from "react";
 
 type ISocketContextType = Socket | null;
 const SocketContext = createContext<ISocketContextType>(null);
@@ -17,30 +18,43 @@ interface ISocketProvider {
 }
 
 export const SocketProvider = ({ children }: ISocketProvider) => {
-  const socketRef = useRef<Socket<DefaultEventsMap, DefaultEventsMap> | null>(
-    null
-  );
-  const { userInfo } = useAppStore();
+  // const socketRef = useRef<Socket<DefaultEventsMap, DefaultEventsMap> | null>(
+  //   null
+  // );
+  const [socket, setSocket] = useState<Socket | null>(null);
+  const { userInfo, selectedChatType, selectedChatData, addMessage } =
+    useAppStore();
 
   useEffect(() => {
     if (userInfo) {
-      socketRef.current = io(HOST, {
+      const newSocket = io(HOST, {
         withCredentials: true,
         query: { userId: userInfo.id },
       });
-      socketRef.current.on("connect", () => {
+      newSocket.on("connect", () => {
         console.log("Connected to socket server");
       });
 
+      newSocket.on("receiveMessage", (message) => {
+        if (
+          (selectedChatType !== undefined &&
+            selectedChatData._id === message.sender._id) ||
+          selectedChatData._id === message.recipient._id
+        ) {
+          console.log("message received: ", message);
+          addMessage(message);
+        }
+      });
+
+      setSocket(newSocket);
+
       return () => {
-        socketRef.current.disconnect();
+        newSocket.disconnect();
       };
     }
-  }, [userInfo]);
+  }, [userInfo, selectedChatType, selectedChatData]);
 
   return (
-    <SocketContext.Provider value={socketRef.current}>
-      {children}
-    </SocketContext.Provider>
+    <SocketContext.Provider value={socket}>{children}</SocketContext.Provider>
   );
 };

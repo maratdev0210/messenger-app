@@ -9,9 +9,10 @@ export interface ChatState {
   setSelectedChatData: (selectedChatData: Contacts | undefined) => void;
   setSelectedChatMessages: (selectedChatMessages: any[]) => void;
   closeChat: () => void;
+  addMessage: (message: any) => void;
 }
 
-export const createChatSlice: StateCreator<ChatState> = (set) => ({
+export const createChatSlice: StateCreator<ChatState> = (set, get) => ({
   selectedChatType: undefined,
   selectedChatData: undefined,
   selectedChatMessages: [],
@@ -27,4 +28,25 @@ export const createChatSlice: StateCreator<ChatState> = (set) => ({
       selectedChatType: undefined,
       selectedChatMessages: [],
     }),
+  addMessage: (message) => {
+    const selectedChatMessages = get().selectedChatMessages;
+    const selectedChatType = get().selectedChatType;
+
+    set({
+      selectedChatMessages: [
+        ...selectedChatMessages,
+        {
+          ...message,
+          recipient:
+            selectedChatType === "channel"
+              ? message.recipient
+              : message.recipient._id,
+          sender:
+            selectedChatType === "channel"
+              ? message.sender
+              : message.sender._id,
+        },
+      ],
+    });
+  },
 });
