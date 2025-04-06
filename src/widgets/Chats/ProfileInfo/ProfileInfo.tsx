@@ -26,7 +26,7 @@ export default function ProfileInfo() {
 
   return (
     <>
-      <div className="absolute bottom-0 h-16 flex items-center justify-between px-10 w-full bg-[#2a2b33]">
+      <div className="absolute bottom-0 h-16 flex items-center justify-between px-10 w-full bg-black">
         <div className="flex gap-3 items-center justify-between">
           <div>
             <ProfilePicture

@@ -20,10 +20,10 @@ export default function DirectMessage() {
           <TooltipTrigger>
             <Plus
               onClick={() => setOpenNewContactModal(true)}
-              className="text-opacity-90 text-sm cursor-pointer hover:transition hover:duration-300 hover:scale-105"
+              className="text-opacity-90 text-black/80 text-sm cursor-pointer hover:transition hover:duration-300 hover:scale-105"
             />
           </TooltipTrigger>
-          <TooltipContent className="bg-[#1c1b1e] border-none p-3 text-white">
+          <TooltipContent className="bg-[#1c1b1e] border-none p-3 text-blue-500">
             Выбрать новый контакт
           </TooltipContent>
         </Tooltip>

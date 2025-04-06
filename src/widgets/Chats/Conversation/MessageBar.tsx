@@ -42,6 +42,7 @@ export default function MessageBar() {
         messageType: "text",
         fileUrl: undefined,
       });
+      setMessage("");
     } else {
       console.warn("Socket not connected");
     }
@@ -62,8 +63,6 @@ export default function MessageBar() {
         const response = await apiClient.post(UPLOAD_FILE_ROUTE, formData, {
           withCredentials: true,
         });
-
-        console.log(response);
 
         if (response.status === 200 && response.data) {
           if (selectedChatType === "contact") {
@@ -88,8 +87,8 @@ export default function MessageBar() {
 
   return (
     <>
-      <div className="h-[10vh] bg-[#1c1d25] flex justify-center items-center px-8 mb-6 gap-6">
-        <div className="flex-1 flex bg-[#2a2b33] rounded-md items-center gap-4 pr-5">
+      <div className="h-[10vh] bg-gray-100 flex justify-center items-center px-8  gap-6">
+        <div className="flex-1 flex bg-gray-900 rounded-md items-center gap-4 pr-5">
           <input
             type="text"
             className="flex-1 p-3 bg-transparent rounded-md focus:border-none focus:outline-none"

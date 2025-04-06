@@ -1,4 +1,4 @@
-# Real-time chat application build with React and Socket.io
+# Real-time chat application built with React and Socket.io
 
 Installation guide:
 

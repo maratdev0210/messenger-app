@@ -65,7 +65,7 @@ export default function MessagesView({
         return (
           <div key={index}>
             {showDate && (
-              <div className="text-center text-gray-500 my-2">
+              <div className="text-center text-gray-900 my-2">
                 {moment(message.timestamp).format("LL")}
               </div>
             )}

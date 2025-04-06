@@ -38,9 +38,9 @@ export default function ContactList({
             <div
               key={index}
               onClick={() => handleClick(contact)}
-              className={`pl-4 py-2 transition duration-300 cursor-pointer ${selectedChatData && selectedChatData._id === contact._id ? "bg-[#8417ff] hover:bg-[#8417ff]" : "hover:bg-blue-400"}`}
+              className={`pl-4 py-2 transition duration-300 cursor-pointer ${selectedChatData && selectedChatData._id === contact._id ? "bg-blue-700 hover:bg-[#8417ff]" : "hover:bg-blue-400"}`}
             >
-              <div className="flex gap-4 items-center justify-start text-neutrlal-300">
+              <div className="flex gap-4 items-center justify-start text-gray-700">
                 {!isChannel && (
                   <div className="h-12">
                     <ProfilePicture

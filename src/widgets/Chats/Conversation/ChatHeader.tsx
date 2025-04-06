@@ -19,7 +19,7 @@ export default function ChatHeader() {
             />
             <div className="cursor-pointer">
               {selectedChatType === "contact" && (
-                <p className="text-lg">
+                <p className="text-lg text-black">
                   <span>{selectedChatData.firstName}</span>
                   <span className="ml-1">{selectedChatData.lastName}</span>
                 </p>
